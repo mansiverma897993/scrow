@@ -24,6 +24,8 @@ This is a *payment holding* model (not legal escrow).
    - `cd server`
    - `npm i`
    - `npm run dev`
+   - Open `http://localhost:4000` for a simple frontend (create deal form)
+   - Open `http://localhost:4000/deal/<token>` for the deal action page
 4. Build & use the SDK:
    - `cd sdk`
    - `npm i`
