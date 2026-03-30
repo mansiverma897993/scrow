@@ -1,0 +1,15 @@
+name: scrow
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: scrow
+      POSTGRES_PASSWORD: scrow
+      POSTGRES_DB: scrow
+    ports:
+      - "5432:5432"
+    volumes:
+      - scrow_pg:/var/lib/postgresql/data
+volumes:
+  scrow_pg:
+
