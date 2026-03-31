@@ -57,6 +57,22 @@ docker compose up -d
 ### Option B: local PostgreSQL
 Create database/user manually and set `DATABASE_URL` accordingly.
 
+## 2.1) Quick verified local run (2026-03-31)
+From repo root in this workspace:
+```bash
+npm --prefix d:\\scrow run setup
+npm --prefix d:\\scrow run dev
+```
+Then verify service availability:
+```bash
+timeout 5 && curl -I http://localhost:4000
+```
+Expected output: HTTP 200 (or 302 for hosted UI redirect)
+
+- Server listens on `http://localhost:4000`
+- Database URL (from `.env`): `postgres://scrow:scrow@localhost:5432/scrow`
+
+
 ## 3) Install dependencies
 
 ### Windows / macOS / Linux

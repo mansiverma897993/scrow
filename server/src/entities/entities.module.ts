@@ -5,6 +5,7 @@ import { ContractEventEntity } from './contract-event.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([ContractEntity, ContractEventEntity])],
+  exports: [TypeOrmModule],
 })
 export class EntitiesModule {}
 

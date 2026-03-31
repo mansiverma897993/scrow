@@ -8,6 +8,8 @@ import { WebhooksController } from './webhooks/webhooks.controller';
 import { WebhooksService } from './webhooks/webhooks.service';
 import { PaymentsModule } from './payments/payments.module';
 import { HostedController } from './hosted/hosted.controller';
+import { ContractEntity } from './entities/contract.entity';
+import { ContractEventEntity } from './entities/contract-event.entity';
 
 @Module({
   imports: [
@@ -22,6 +24,7 @@ import { HostedController } from './hosted/hosted.controller';
         logging: false,
       }),
     }),
+    TypeOrmModule.forFeature([ContractEntity, ContractEventEntity]),
     EntitiesModule,
     PaymentsModule,
   ],

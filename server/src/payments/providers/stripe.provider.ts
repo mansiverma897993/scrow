@@ -13,7 +13,7 @@ export class StripeProvider implements PaymentProvider {
   constructor(private readonly config: ConfigService) {
     const secretKey = this.config.get<string>('STRIPE_SECRET_KEY');
     if (!secretKey) throw new Error('Missing STRIPE_SECRET_KEY');
-    this.stripe = new Stripe(secretKey, { apiVersion: '2024-06-20' });
+    this.stripe = new Stripe(secretKey, { apiVersion: '2025-02-24.acacia' });
   }
 
   async createAuthorization(params: {

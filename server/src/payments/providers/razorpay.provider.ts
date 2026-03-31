@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import Razorpay from 'razorpay';
+const Razorpay = require('razorpay');
 import { ContractEntity } from '../../entities/contract.entity';
 import {
   PaymentProvider,
@@ -10,7 +10,7 @@ import {
 @Injectable()
 export class RazorpayProvider implements PaymentProvider {
   readonly name = 'razorpay' as const;
-  private readonly razorpay: Razorpay;
+  private readonly razorpay: any;
 
   constructor(private readonly config: ConfigService) {
     const keyId = this.config.get<string>('RAZORPAY_KEY_ID');
@@ -39,7 +39,7 @@ export class RazorpayProvider implements PaymentProvider {
         scrow_contract_token: contract.token,
       },
       // Authorized-only: we will capture after approve.
-      payment_capture: 0,
+      payment_capture: false,
     });
 
     if (!order.id) throw new Error('Razorpay did not return an order id');
@@ -56,7 +56,7 @@ export class RazorpayProvider implements PaymentProvider {
       throw new Error('razorpayPaymentId is required before capture');
     }
 
-    await this.razorpay.payments.capture(contract.razorpayPaymentId);
+    await this.razorpay.payments.capture(contract.razorpayPaymentId, contract.amountMinor, contract.currency.toUpperCase());
   }
 }
 

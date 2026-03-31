@@ -19,7 +19,7 @@ export class WebhooksService {
   ) {
     const stripeSecretKey = this.config.get<string>('STRIPE_SECRET_KEY');
     if (!stripeSecretKey) throw new Error('Missing STRIPE_SECRET_KEY');
-    this.stripe = new Stripe(stripeSecretKey, { apiVersion: '2024-06-20' });
+    this.stripe = new Stripe(stripeSecretKey, { apiVersion: '2025-02-24.acacia' });
   }
 
   async handleStripeWebhook(rawBody: Buffer, signatureHeader: string | undefined): Promise<void> {
