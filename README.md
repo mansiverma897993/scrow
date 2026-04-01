@@ -103,7 +103,8 @@ npm run dev:open
 - Deal page: generated link like `http://localhost:4000/deal/<token>`
 
 ## 6) Enable real payment state updates (webhooks)
-Without webhooks, contract will not move to `FUNDS_LOCKED`.
+Without webhooks, contract will not move to `FUNDS_LOCKED` automatically.
+For local dev you can also call `POST /contracts/:id/lock` after successful checkout to avoid ngrok/webhook latency.
 
 Expose local app:
 ```bash
@@ -120,6 +121,7 @@ Set webhook URLs:
 - `POST /contracts/:id/pay`
 - `POST /contracts/:id/submit`
 - `POST /contracts/:id/approve`
+- `POST /contracts/:id/lock` (manual funds-locked trigger for local/dev if webhook not available)
 - `GET /contracts/:id`
 - `GET /contracts/by-token/:token`
 - `GET /deal/:token`

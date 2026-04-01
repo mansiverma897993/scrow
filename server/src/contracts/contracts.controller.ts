@@ -44,6 +44,12 @@ export class ContractsController {
     return { ok: true };
   }
 
+  @Post('/contracts/:id/lock')
+  async lockFunds(@Param('id') id: string) {
+    await this.contracts.confirmFundsLocked(id);
+    return { ok: true };
+  }
+
   @Get('/contracts/:id')
   async getById(@Param('id') id: string) {
     const c = await this.contracts.getById(id);

@@ -151,15 +151,9 @@ export class HostedController {
         </section>
 
         <aside class="card">
-          <h3 style="margin-top:0;">Integration Snippet</h3>
-          <pre>&lt;script src="http://localhost:4000/sdk/scrow.js"&gt;&lt;/script&gt;
-&lt;script&gt;
-  const scrow = new window.ScrowSDK({
-    apiBaseUrl: 'http://localhost:4000',
-    apiKey: ''
-  });
-&lt;/script&gt;</pre>
-          <div class="steps">
+          <h3 style="margin-top:0;">Plugin Setup</h3>
+          <p style="margin:0;">Use the API and deal link flow below to create and share deals. This frontend is a demo shell; you can integrate via the SDK endpoint <code>/sdk/scrow.js</code> from your own site.</p>
+          <div class="steps" style="margin-top:12px;">
             <div class="step"><strong>1)</strong> Create deal on this page</div>
             <div class="step"><strong>2)</strong> Open deal link and accept</div>
             <div class="step"><strong>3)</strong> Lock payment, submit, approve</div>
@@ -534,6 +528,18 @@ export class HostedController {
       document.getElementById('payBtn').addEventListener('click', pay);
       document.getElementById('submitBtn').addEventListener('click', submitWork);
       document.getElementById('approveBtn').addEventListener('click', approve);
+
+      // Check Stripe redirect status in URL after checkout.
+      const query = new URLSearchParams(window.location.search);
+      const scrowStatus = query.get('scrow');
+      if (scrowStatus === 'stripe_success') {
+        toast('Stripe payment completed successfully. Confirming funds lock...');
+        await api('/contracts/' + CONTRACT_ID + '/lock', { method: 'POST' })
+          .then(() => toast('Funds locked'))
+          .catch(err => toast('Funds lock confirmation failed: ' + (err?.message || err)));
+      } else if (scrowStatus === 'stripe_cancel') {
+        toast('Stripe payment was canceled.');
+      }
 
       // Initial UI state + polling.
       wireButtons(${json({

@@ -145,6 +145,9 @@ export class ContractsService {
     if (contract.state !== 'WORK_SUBMITTED') {
       throw new BadRequestException(`Cannot approve in state ${contract.state}`);
     }
+    if (!contract.fundsLockedAt) {
+      throw new BadRequestException('Cannot approve contract before funds are locked');
+    }
     if (contract.completedAt) return; // idempotent
 
     await this.payments.capture({ contract });
@@ -195,6 +198,24 @@ export class ContractsService {
       provider: params.contractProvider,
       stripePaymentIntentId: params.stripePaymentIntentId ?? null,
       razorpayPaymentId: params.razorpayPaymentId ?? null,
+    });
+  }
+
+  async confirmFundsLocked(contractId: string): Promise<void> {
+    const contract = await this.contractsRepo.findOne({ where: { id: contractId } });
+    if (!contract) throw new NotFoundException('Contract not found');
+    if (contract.state !== 'ACTIVE') {
+      // only allow explicit lock from active
+      throw new BadRequestException(`Cannot confirm funds locked in state ${contract.state}`);
+    }
+    if (!contract.sellerAcceptedAt) {
+      throw new BadRequestException('Seller must accept contract before locking funds');
+    }
+
+    await this.markFundsLocked({
+      contractProvider: contract.provider,
+      contractId: contract.id,
+      lockedAt: new Date(),
     });
   }
 }
