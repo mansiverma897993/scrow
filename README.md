@@ -145,6 +145,42 @@ Set webhook URLs:
       provider: "razorpay"
     });
     console.log(deal.dealUrl);
+    // deal.dealUrl is a shareable link like: http://localhost:4000/deal/<token>
+  }
+</script>
+```
+
+## Shared link / deal flow (no-code experience)
+1. Start the server:
+   - `npm run setup`
+   - `npm run dev`
+2. Open `http://localhost:4000` in your browser.
+3. Fill the “Create New Deal” form.
+4. Click **Create Secure Deal**.
+5. The UI provides a clickable shareable deal link (`/deal/<token>`).
+6. Send this link to buyer/seller (WhatsApp, email, etc.).
+7. Receiver opens link, accepts, and pays through Razorpay/Stripe checkout.
+
+## JS SDK integration (plugin mode)
+As your “normal plugin”, include this snippet on any website:
+```html
+<script src="http://localhost:4000/sdk/scrow.js"></script>
+<script>
+  const scrow = new window.ScrowSDK({
+    apiBaseUrl: "http://localhost:4000",
+    apiKey: "YOUR_API_KEY_HERE" // optional for local dev
+  });
+
+  async function createAndShareDeal() {
+    const contract = await scrow.createContract({
+      title: "Logo Design",
+      description: "One concept + source files",
+      amountMinor: "5000",
+      currency: "INR",
+      provider: "razorpay"
+    });
+    alert("Deal link: " + contract.dealUrl);
+    // Send this contract.dealUrl to counterparty
   }
 </script>
 ```
