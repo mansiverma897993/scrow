@@ -1,4 +1,4 @@
-# Scrow - Trust-Based Transactions Plugin
+# Scrow : Trust-Based Transactions Plugin
 
 Scrow is a "Stripe for trust-based transactions" engine:
 - Create deal contracts
