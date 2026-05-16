@@ -196,5 +196,4 @@ npm run build
 ## Production notes
 - `synchronize: true` in TypeORM is for MVP/dev only; use migrations in production.
 - Add auth/RBAC, audit logs, rate limits, and compliance checks before launch.
-- Do not market as legal escrow until regulatory review is complete.
 
